@@ -22,7 +22,7 @@ public class Controller {
         return temp;
     }
 
-    public File delete(Storage storage, File file) {
+    public File delete(Storage storage, File file) throws Exception{
         File temp = service.delete(storage, file);
         System.out.println("delete file id="+file.getId()+" from storage id="+storage.getId()+" was finished successfully");
         return temp;
