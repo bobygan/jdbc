@@ -1,4 +1,7 @@
-package lesson4;
+package lesson4.dao;
+
+import lesson4.File;
+import lesson4.Storage;
 
 import java.util.ArrayList;
 import java.util.List;

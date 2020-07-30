@@ -1,5 +1,9 @@
 package lesson4;
 
+import lesson4.controller.Controller;
+import lesson4.dao.FileDAO;
+import lesson4.dao.StorageDAO;
+
 import java.util.ArrayList;
 
 public class Demo {

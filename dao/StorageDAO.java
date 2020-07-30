@@ -1,4 +1,6 @@
-package lesson4;
+package lesson4.dao;
+
+import lesson4.Storage;
 
 import java.sql.*;
 
