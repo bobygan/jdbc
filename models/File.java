@@ -1,4 +1,4 @@
-package lesson4;
+package lesson4.models;
 
 public class File {
     private Long id;

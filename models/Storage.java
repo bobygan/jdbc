@@ -1,4 +1,4 @@
-package lesson4;
+package lesson4.models;
 
 import java.util.Arrays;
 

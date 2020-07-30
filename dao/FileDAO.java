@@ -1,7 +1,7 @@
 package lesson4.dao;
 
-import lesson4.File;
-import lesson4.Storage;
+import lesson4.models.File;
+import lesson4.models.Storage;
 
 import java.sql.*;
 import java.util.List;

@@ -1,5 +1,7 @@
-package lesson4;
+package lesson4.demo;
 
+import lesson4.models.File;
+import lesson4.models.Storage;
 import lesson4.controller.Controller;
 import lesson4.dao.FileDAO;
 import lesson4.dao.StorageDAO;

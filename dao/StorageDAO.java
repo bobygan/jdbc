@@ -1,6 +1,6 @@
 package lesson4.dao;
 
-import lesson4.Storage;
+import lesson4.models.Storage;
 
 import java.sql.*;
 
