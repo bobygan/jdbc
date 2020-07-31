@@ -1,10 +1,13 @@
 package lesson4.service;
 
+import lesson4.IdEntity;
+import lesson4.dao.DAO;
 import lesson4.models.File;
 import lesson4.models.Storage;
-import lesson4.dao.DAO;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class Service {
 
@@ -12,17 +15,24 @@ public class Service {
 
 
     public File put(Storage storage, File file) throws Exception {
-        validateStorage(storage);
-        validateFile(file);
-        checkMemory(storage, file);
-        checkFormat(storage, file);
+        validate(storage);
+        validate(file);
+
+        List<File>files=new ArrayList<>();
+        files.add(file);
+
+
+        checkMemory(storage, files);
+        checkFormat(storage, files);
         return dao.put(storage, file);
     }
 
 
     public List<File> putAll(Storage storage, List<File> files) throws Exception {
-        validateStorage(storage);
-        validateFile(files);
+        validate(storage);
+        for (File file : files) {
+            validate(file);
+        }
 
         checkMemory(storage, files);
         checkFormat(storage, files);
@@ -30,40 +40,36 @@ public class Service {
     }
 
     public File delete(Storage storage, File file)throws Exception {
-        validateStorage(storage);
-        validateFile(file);
+        validate(storage);
+        validate(file);
         return dao.delete(storage, file);
     }
 
     public void transferAll(Storage storageFrom, Storage storageTo) throws Exception {
-        validateStorage(storageFrom);
-        validateStorage(storageTo);
+        validate(storageFrom);
+        validate(storageTo);
         checkMemory(storageFrom, storageTo);
         checkFormat(storageFrom, storageTo);
         dao.transferAll(storageFrom, storageTo);
     }
 
     public void transferFile(Storage storageFrom, Storage storageTo, long id) throws Exception {
-        validateStorage(storageFrom);
-        validateStorage(storageTo);
+        validate(storageFrom);
+        validate(storageTo);
         dao.storageDAO.findById(storageFrom.getId());
         dao.storageDAO.findById(storageTo.getId());
-        checkMemory(storageTo, dao.fileDAO.findById(id));
+
+        List<File>files=new ArrayList<>();
+        files.add(dao.fileDAO.findById(id));
+        checkMemory(storageTo, files);
+        checkFormat(storageFrom,storageTo);
         dao.transferFile(storageFrom, storageTo, id);
     }
 
 
-    private void checkMemory(Storage storage, File file) throws Exception {
-        // System.out.println("storage totalMemory=" + fileDAO.checkMemory(storage));
-        // System.out.println("storage maxSize=" + storage.getStorageMaxSize());
-        // System.out.println("file size=" + file.getSize());
-        if (dao.fileDAO.checkMemory(storage) + file.getSize() > storage.getStorageMaxSize()) {
-            System.err.println("not enough memory in storage id=" + storage.getId());
-            throw new Exception();
-        }
-    }
 
-    private void checkMemory(Storage storage, List<File> files) throws Exception {
+
+    private  void checkMemory(Storage storage, List<File> files) throws Exception {
         long sum = 0;
         for (File file : files) {
             sum += file.getSize();
@@ -74,7 +80,6 @@ public class Service {
         }
     }
 
-
     private void checkMemory(Storage storageFrom, Storage storageTo) throws Exception {
         if (dao.fileDAO.checkMemory(storageFrom) > storageTo.getStorageMaxSize() - dao.fileDAO.checkMemory(storageTo)) {
             System.err.println("not enough memory in storage id=" + storageTo.getId());
@@ -82,15 +87,6 @@ public class Service {
         }
     }
 
-    public void checkFormat(Storage storage, File file) throws Exception {
-        String joinedString = joinString(storage.getFormatsSupported());
-        // System.out.println("storageFormatsSupported=" + joinedString);
-        // System.out.println("fileFormats=" + file.getFormat());
-        if (!(joinedString.contains(file.getFormat()))) {
-            System.err.println("storage id=" + storage.getId() + " do not support file id=" + file.getId());
-            throw new Exception();
-        }
-    }
 
     public void checkFormat(Storage storageFrom, Storage storageTo) throws Exception {
         String joinedStringFrom = joinString(storageFrom.getFormatsSupported());
@@ -105,6 +101,7 @@ public class Service {
 
     private void checkFormat(Storage storage, List<File> files) throws Exception {
         String joinedString = joinString(storage.getFormatsSupported());
+
         for (File file : files) {
             if (!(joinedString.contains(file.getFormat()))) {
                 System.err.println("storage id=" + storage.getId() + " do not support file id=" + file.getId());
@@ -128,23 +125,9 @@ public class Service {
         }
     }
 
-
-    private void validateFile(File file) throws Exception {
-        if (file == null || file.getId() == null) {
-            System.err.println("wrong file data");
-            throw new Exception();
-        }
-    }
-        private void validateFile(List<File>files) throws Exception {
-               for (File file : files) {
-                validateFile(file);
-               }
-        }
-
-
-    private void validateStorage(Storage storage) throws Exception {
-        if (storage == null || storage.getId() == null) {
-            System.err.println("wrong storage data");
+    private static <T extends IdEntity> void validate(T data) throws Exception {
+        if (data == null || data.getId() == null) {
+            System.err.println("wrong data");
             throw new Exception();
         }
     }

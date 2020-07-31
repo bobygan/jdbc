@@ -1,8 +1,10 @@
 package lesson4.models;
 
+import lesson4.IdEntity;
+
 import java.util.Arrays;
 
-public class Storage {
+public class Storage extends IdEntity {
     private Long id;
     private String [] formatsSupported;
     private String storageCountry;

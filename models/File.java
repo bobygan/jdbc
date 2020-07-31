@@ -1,6 +1,8 @@
 package lesson4.models;
 
-public class File {
+import lesson4.IdEntity;
+
+public class File extends IdEntity {
     private Long id;
     private String name;
     private String format ;
