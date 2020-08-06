@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Service {
 
-    DAO dao = new DAO();
+    private DAO dao = new DAO();
 
 
     public File put(Storage storage, File file) throws Exception {
@@ -56,8 +56,6 @@ public class Service {
     public void transferFile(Storage storageFrom, Storage storageTo, long id) throws Exception {
         validate(storageFrom);
         validate(storageTo);
-        dao.storageDAO.findById(storageFrom.getId());
-        dao.storageDAO.findById(storageTo.getId());
 
         List<File>files=new ArrayList<>();
         files.add(dao.fileDAO.findById(id));
@@ -88,7 +86,7 @@ public class Service {
     }
 
 
-    public void checkFormat(Storage storageFrom, Storage storageTo) throws Exception {
+    private void checkFormat(Storage storageFrom, Storage storageTo) throws Exception {
         String joinedStringFrom = joinString(storageFrom.getFormatsSupported());
         String joinedStringTo = joinString(storageTo.getFormatsSupported());
         // System.out.println("storageFormatsSupported=" + joinedString);
@@ -126,7 +124,8 @@ public class Service {
     }
 
     private static <T extends IdEntity> void validate(T data) throws Exception {
-        if (data == null || data.getId() == null) {
+        if (data != null && data.getId() != null) { }
+        else{
             System.err.println("wrong data");
             throw new Exception();
         }

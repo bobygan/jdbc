@@ -39,9 +39,7 @@ public class DAO {
     }
 
     public void transferFile(Storage storageFrom, Storage storageTo, long id) throws Exception {
-
         File temp = fileDAO.findById(id);
-
         File file = new File(temp.getId(), temp.getName(), temp.getFormat(), temp.getSize(), storageTo);
         fileDAO.update(file);
     }

@@ -170,10 +170,10 @@ public class Demo {
         arrayList.add(file6);
         arrayList.add(file7);
         arrayList.add(file8);
-      //  try {
-      //      controller.putAll(storage0,arrayList);
-     //   } catch (Exception e) {
-     //   }
+        try {
+            controller.putAll(storage0,arrayList);
+        } catch (Exception e) {
+        }
 
         try {
             controller.transferAll(storage4,storage1);
@@ -184,6 +184,9 @@ public class Demo {
             controller.transferFile(storage4,storage2,4);
         } catch (Exception e) {
         }
+
+
+
 
     }
 

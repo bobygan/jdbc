@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Controller {
 
-    Service service = new Service();
+    private Service service = new Service();
 
     public File put(Storage storage, File file) throws Exception {
         File temp = service.put(storage, file);
