@@ -11,8 +11,6 @@ public class FileDAO {
     private static final String sqlRequestDeleteFile = "DELETE FROM FI WHERE  ID =?";
     private static final String sqlRequestUpdateFile = "UPDATE FI SET NAMEFILE=?, FORMATFILE=?, SIZEFILE=?, STORAGEID=? WHERE ID=?";
     private static final String sqlRequestFindByIdFile = "SELECT * FROM FI WHERE  ID =?";
-
-    private static final String sqlRequestCheckMemoryFile = "select sum(sizefile) from fi where storageid=?";
     private static final String sqlRequestUpdateStorageFile = "UPDATE FI SET storageid=? WHERE storageid=?";
 
 
@@ -100,12 +98,12 @@ public class FileDAO {
     public File findById(Long id) throws Exception {
 
         try (PreparedStatement prepareStatement = Jdbc.connect(true).prepareStatement(sqlRequestFindByIdFile)) {
-
+            StorageDAO storageDAO = new StorageDAO();
             prepareStatement.setLong(1, id);
             ResultSet resultSet = prepareStatement.executeQuery();
             resultSet.next();
 
-            StorageDAO storageDAO = new StorageDAO();
+
 
             File file = new File(resultSet.getLong(1), resultSet.getString(2), resultSet.getString(3), resultSet.getLong(4), storageDAO.findById(resultSet.getLong(1)));
             System.out.println("findFileById id="+id+" was finished successfully");
@@ -120,27 +118,13 @@ public class FileDAO {
     }
 
 
-    public Long checkMemory(Storage storage) throws Exception {
-
-        try (PreparedStatement prepareStatement = Jdbc.connect(true).prepareStatement(sqlRequestCheckMemoryFile)) {
-            prepareStatement.setLong(1, storage.getId());
-            ResultSet resultSet = prepareStatement.executeQuery();
-            resultSet.next();
-            return resultSet.getLong(1);
-
-        } catch (SQLException e) {
-            System.err.println("Something went wrong during checkMemory ");
-            e.printStackTrace();
-            throw e;
-        }
-    }
 
     public void updateStorage(Storage storageFrom, Storage storageTo) throws Exception {
 
         try (PreparedStatement prepareStatement = Jdbc.connect(true).prepareStatement(sqlRequestUpdateStorageFile)) {
 
-            prepareStatement.setLong(1, storageFrom.getId());
-            prepareStatement.setLong(2, storageTo.getId());
+            prepareStatement.setLong(2, storageFrom.getId());
+            prepareStatement.setLong(1, storageTo.getId());
             int res = prepareStatement.executeUpdate();
             System.out.println("update storageFrom id=" + storageFrom.getId() + " storageTo id=" + storageTo.getId() + " was finished with result  " + res);
 

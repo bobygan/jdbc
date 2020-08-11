@@ -1,35 +1,61 @@
 package lesson4.demo;
 
-import lesson4.models.File;
-import lesson4.models.Storage;
 import lesson4.controller.Controller;
 import lesson4.dao.FileDAO;
 import lesson4.dao.StorageDAO;
+import lesson4.models.File;
+import lesson4.models.Storage;
 
 import java.util.ArrayList;
 
 public class Demo {
     public static void main(String[] args) {
-        String formats[] = {"txt", "doc", "bmp"};
-        Storage storage0 = new Storage((long) 0, formats, "ua", (long) 10000);
-        Storage storage1 = new Storage((long) 1, formats, "ua", (long) 1000000);
-        Storage storage2 = new Storage((long) 2, formats, "ua", (long) 100);
-        Storage storage3 = new Storage((long) 3, formats, "ua", (long) 100);
-        Storage storage4 = new Storage((long) 4, formats, "ua", (long) 100);
+        String formats = "txt,doc,bmp";
+        File file10=new File((long) 0,"","",(long)0,null) ;
+        java.util.List<File> fileList0 = new ArrayList<>();
+        java.util.List<File> fileList1 = new ArrayList<>();
+        java.util.List<File> fileList2 = new ArrayList<>();
+        java.util.List<File> fileList3 = new ArrayList<>();
+        java.util.List<File> fileList4 = new ArrayList<>();
+
+        Storage storage0 = new Storage((long) 0, formats, "ua", (long) 10000,fileList0);
+        Storage storage1 = new Storage((long) 1, formats, "ua", (long) 10000,fileList1);
+        Storage storage2 = new Storage((long) 2, formats, "ua", (long) 100,fileList2);
+        Storage storage3 = new Storage((long) 3, formats, "ua", (long) 100,fileList3);
+        Storage storage4 = new Storage((long) 4, formats, "ua", (long) 100,fileList4);
+        Storage storage5;
 
         File file0 = new File((long) 0, "A", "txt", (long) 12, storage0);
         File file1 = new File((long) 1, "B", "txt", (long) 50, storage1);
         File file2 = new File((long) 2, "C", "txt", (long) 12, storage2);
-        File file3 = new File((long) 3, "D", "txt", (long) 12, storage3);
+        File file3 = new File((long) 3, "D", "doc", (long) 12, storage3);
         File file4 = new File((long) 4, "E", "txt", (long) 12, storage4);
         File file5 = new File((long) 5, "F", "txt", (long) 12, storage4);
-        File file6=  new File((long) 6, "G", "txt", (long) 12, storage4);
+        File file6 = new File((long) 6, "G", "txt", (long) 12, storage4);
         File file7 = new File((long) 7, "I", "txt", (long) 12, storage4);
-        File file8=  new File((long) 8, "H", "txt", (long) 12, storage4);
+        File file8 = new File((long) 8, "H", "txt", (long) 12, storage4);
 
         FileDAO fileDAO = new FileDAO();
         StorageDAO storageDAO = new StorageDAO();
         Controller controller = new Controller();
+
+
+
+
+        try {
+              storageDAO.save(storage4);
+              fileDAO.save(file3);
+              controller.transferFile(storage4,storage0, 4);
+        } catch (Exception e) {
+        }
+
+        try {
+             storageDAO.save(storage4);
+             fileDAO.save(file3);
+            controller.transferAll(storage4,storage0);
+        } catch (Exception e) {
+        }
+     //  System.exit(1);
 
 
 
@@ -38,11 +64,13 @@ public class Demo {
         } catch (Exception e) {
         }
 
+
+       // System.exit(1);
         try {
             storageDAO.update(storage0);
         } catch (Exception e) {
+            System.out.println("!!!!!!!");
         }
-
 
 
         try {
@@ -50,10 +78,10 @@ public class Demo {
         } catch (Exception e) {
         }
 
-            try {
-                storageDAO.delete(storage1.getId());
-            } catch (Exception e) {
-            }
+        try {
+            storageDAO.delete(storage1.getId());
+        } catch (Exception e) {
+        }
 
 
         try {
@@ -62,11 +90,11 @@ public class Demo {
         }
 
         try {
-            System.out.println( (storageDAO.findById(storage2.getId()).toString()));
+            System.out.println((storageDAO.findById(storage2.getId()).toString()));
         } catch (Exception e) {
         }
 
-      //  System.exit(1);
+        //  System.exit(1);
 
 
         try {
@@ -78,9 +106,10 @@ public class Demo {
         // fileDAO.update(file2);
         // fileDAO.update(file3);
 
-        try{ storageDAO.save(storage4); }
-          catch (Exception e){
-         }
+        try {
+            storageDAO.save(storage4);
+        } catch (Exception e) {
+        }
 
         try {
             fileDAO.save(file0);
@@ -133,36 +162,36 @@ public class Demo {
         }
 
         try {
-            System.out.println(fileDAO.findById((long)8).toString());
+            System.out.println(fileDAO.findById((long) 8).toString());
         } catch (Exception e) {
         }
 
-      //  try {
-      //      fileDAO.update(file0);
-      //  } catch (Exception e) {
-      //  }
+        //  try {
+        //      fileDAO.update(file0);
+        //  } catch (Exception e) {
+        //  }
 
-      //  try {
-      //      fileDAO.update(file1);
-      //  } catch (Exception e) {
+        //  try {
+        //      fileDAO.update(file1);
+        //  } catch (Exception e) {
         // }
 
 
         try {
-            controller.put(storage0,file1);
+            controller.put(storage0, file1);
         } catch (Exception e) {
         }
 
-      //  try {
+        //  try {
         //    controller.delete(storage0,file1);
-       // } catch (Exception e) {
-      //  }
+        // } catch (Exception e) {
+        //  }
 
 
-     //   try {
-      //      storageDAO.update(storage0);
-     //   } catch (Exception e) {
-     //   }
+        //   try {
+        //      storageDAO.update(storage0);
+        //   } catch (Exception e) {
+        //   }
 
         ArrayList<File> arrayList = new ArrayList<>();
         arrayList.add(file4);
@@ -171,21 +200,19 @@ public class Demo {
         arrayList.add(file7);
         arrayList.add(file8);
         try {
-            controller.putAll(storage0,arrayList);
+            controller.putAll(storage0, arrayList);
         } catch (Exception e) {
         }
 
         try {
-            controller.transferAll(storage4,storage1);
+            controller.transferAll(storage4, storage1);
         } catch (Exception e) {
         }
 
         try {
-            controller.transferFile(storage4,storage2,4);
+            controller.transferFile(storage4, storage2, 4);
         } catch (Exception e) {
         }
-
-
 
 
     }

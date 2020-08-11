@@ -2,24 +2,17 @@ package lesson4.models;
 
 import lesson4.IdEntity;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Storage extends IdEntity {
     private Long id;
-    private String [] formatsSupported;
+    private String formatsSupported;
     private String storageCountry;
     private Long storageMaxSize;
     private List <File> fileList;
 
-    public Storage(Long id, String[] formatsSupported, String storageCountry, Long storageMaxSize) {
-        this.id = id;
-        this.formatsSupported = formatsSupported;
-        this.storageCountry = storageCountry;
-        this.storageMaxSize = storageMaxSize;
-    }
 
-    public Storage(Long id, String[] formatsSupported, String storageCountry, Long storageMaxSize, List<File> fileList) {
+    public Storage(Long id, String formatsSupported, String storageCountry, Long storageMaxSize, List<File> fileList) {
         this.id = id;
         this.formatsSupported = formatsSupported;
         this.storageCountry = storageCountry;
@@ -27,11 +20,16 @@ public class Storage extends IdEntity {
         this.fileList = fileList;
     }
 
+    public Storage(Long id) {
+        this.id = id;
+
+    }
+
     public Long getId() {
         return id;
     }
 
-    public String[] getFormatsSupported() {
+    public String getFormatsSupported() {
         return formatsSupported;
     }
 
@@ -51,9 +49,10 @@ public class Storage extends IdEntity {
     public String toString() {
         return "Storage{" +
                 "id=" + id +
-                ", formatsSupported=" + Arrays.toString(formatsSupported) +
+                ", formatsSupported='" + formatsSupported + '\'' +
                 ", storageCountry='" + storageCountry + '\'' +
                 ", storageMaxSize=" + storageMaxSize +
+                ", fileList=" + fileList +
                 '}';
     }
 }

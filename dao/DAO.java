@@ -12,6 +12,8 @@ public class DAO {
 
 
     public File put(Storage storage, File file) throws Exception {
+        fileDAO.findById(file.getId());
+        System.out.println("kfjvnlkenvlkjnvlkjnd");
         File temp = new File(file.getId(), file.getName(), file.getFormat(), file.getSize(), storage);
         return fileDAO.update(temp);
     }
@@ -31,7 +33,6 @@ public class DAO {
     }
 
     public void transferAll(Storage storageFrom, Storage storageTo) throws Exception {
-
         fileDAO.updateStorage(storageFrom, storageTo);
 
     }
