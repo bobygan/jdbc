@@ -20,7 +20,7 @@ public class Storage extends IdEntity {
         this.fileList = fileList;
     }
 
-    public Storage(Long id) {
+    public Storage( Long id) {
         this.id = id;
 
     }
